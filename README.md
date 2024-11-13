@@ -21,7 +21,6 @@ El **Environmental Temperature Monitoring System (ETMS)** es un sistema diseñad
   - Generación de reportes en PDF con estadísticas detalladas de los sensores.
 
 - **Configuración avanzada**:
-  - Filtrado de sensores por grupos ("Pixels", "Strips" o "All").
   - Configuración de rangos de tiempo y valores de umbral para alertas.
 
 ---
