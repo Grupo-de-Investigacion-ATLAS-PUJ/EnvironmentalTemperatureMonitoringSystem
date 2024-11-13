@@ -10,6 +10,10 @@ from app.data.models import query_historical_data
 SETTINGS_FILE = "app/settings.json"
 
 def get_thresholds():
+    """
+    Obtiene los umbrales de temperatura desde el archivo de configuración.
+    Si el archivo no existe, devuelve valores por defecto.
+    """
     if not os.path.exists(SETTINGS_FILE):
         return {"max_threshold": 60, "min_threshold": -80}  # Defaults
 
@@ -17,11 +21,18 @@ def get_thresholds():
         return json.load(file)
 
 def set_thresholds(max_threshold, min_threshold):
+    """
+    Establece nuevos umbrales de temperatura y los guarda en el archivo de configuración.
+    """
     thresholds = {"max_threshold": max_threshold, "min_threshold": min_threshold}
     with open(SETTINGS_FILE, "w") as file:
         json.dump(thresholds, file)
 
 def create_performance_graph():
+    """
+    Genera un gráfico interactivo de rendimiento del sistema utilizando Plotly.
+    Muestra la temperatura medida por los sensores en función del tiempo.
+    """
     df = query_data()
 
     # Parse the 'time' column to datetime
@@ -55,6 +66,10 @@ def create_performance_graph():
     return fig
 
 def create_trend_graph():
+    """
+    Genera un gráfico de tendencia promedio de temperatura.
+    Calcula la media de las temperaturas de todos los sensores a lo largo del tiempo.
+    """
     df = query_data()
 
     # Parse the 'time' column to datetime
@@ -101,6 +116,9 @@ temperature_LOW_THRESHOLD = -60
 excluded_channels = [48, 49, 50, 51]
 
 def filter_sensors(df):
+    """
+    Filtra los sensores excluyendo los canales 48, 49, 50 y 51.
+    """
     df['sensor_number'] = df['name'].str.extract(r'voltage_(\d+)\.value$')[0].astype(int)
     return df[~df['sensor_number'].isin(excluded_channels)]
 
@@ -118,6 +136,9 @@ def get_temperature_highlights():
 
 
 def generate_alerts():
+    """
+    Genera alertas para los sensores que exceden los umbrales configurados.
+    """
     thresholds = get_thresholds()
     max_threshold = thresholds['max_threshold']
     min_threshold = thresholds['min_threshold']
@@ -157,8 +178,8 @@ def generate_alerts():
 
 def create_historical_graph(start_datetime, end_datetime):
     """
-    Generate a Plotly graph for the historical data within the specified time range,
-    including a line for the overall average value.
+    Genera un gráfico histórico dentro de un rango de tiempo especificado.
+    Muestra las temperaturas por sensor y una línea para el promedio general.
     """
     df = query_historical_data(start_datetime, end_datetime)
 

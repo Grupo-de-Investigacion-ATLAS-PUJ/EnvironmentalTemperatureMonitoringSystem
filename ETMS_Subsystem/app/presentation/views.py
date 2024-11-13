@@ -23,6 +23,11 @@ ADMIN_USER = "etm"
 @views.route('/dashboard', methods=['GET', 'POST'])
 @login_required
 def dashboard():
+    """
+    Muestra el tablero principal de la aplicación.
+    Permite seleccionar un grupo de sensores para mostrar en las visualizaciones.
+    """
+
     if request.method == 'POST':
         # Save the selected sensor group in the session
         sensor_group = request.form.get('sensor_group')
@@ -39,6 +44,9 @@ sensor_coordinates = [{'coords': '205,103,15'}, {'coords': '235,86,12'}, {'coord
 @views.route('/variables')
 @login_required
 def variables():
+    """
+    Muestra información detallada de los sensores junto con sus coordenadas.
+    """
     sensor_info = get_sensor_info() 
     sensors = [
         {**info, **coord}
@@ -49,16 +57,25 @@ def variables():
 @views.route('/alerts')
 @login_required
 def alerts():
+    """
+    Página que muestra alertas generadas por los sensores.
+    """
     return render_template('alerts.html', page_id="alerts")
 
 @views.route('/reports')
 @login_required
 def reports():
+    """
+    Página para generar y descargar reportes.
+    """
     return render_template('reports.html', page_id="reports")
 
 @views.route('/settings', methods=['GET', 'POST'])
 @login_required
 def settings():
+    """
+    Configuración de rangos de tiempo y umbrales para la aplicación.
+    """
     if request.method == 'POST':
         form_type = request.form.get('form_type')
 
@@ -94,22 +111,34 @@ def settings():
 
 @views.route('/api/performance_data')
 def get_performance_data():
+    """
+    API que devuelve datos del gráfico de rendimiento en formato JSON.
+    """
     performance_graph = create_performance_graph()
     return jsonify(pio.to_json(performance_graph))
 
 @views.route('/api/trend_data')
 def get_trend_data():
+    """
+    API que devuelve datos del gráfico de tendencias en formato JSON.
+    """
     trend_graph = create_trend_graph()
     return jsonify(pio.to_json(trend_graph))
 
 @views.route('/api/alerts')
 def get_alerts():
+    """
+    API que devuelve alertas generadas en formato JSON.
+    """
     # Return the generated alerts in JSON format
     alerts = generate_alerts()
     return jsonify(alerts)
 
 @views.route('/generate_report', methods=['GET'])
 def generate_report():
+    """
+    Genera un reporte PDF con estadísticas de los sensores.
+    """
     class PDF(FPDF):
         def header(self):
             self.set_font('Arial', 'B', 12)
@@ -164,6 +193,9 @@ def generate_report():
 
 @views.route("/login", methods=["GET", "POST"])
 def login():
+    """
+    Ruta para iniciar sesión.
+    """
     if request.method == "POST":
         username = request.form["username"]
         password = request.form["password"]
@@ -180,6 +212,9 @@ def login():
 
 @views.route("/register", methods=["GET", "POST"])
 def register():
+    """
+    Ruta para el registro de nuevos usuarios.
+    """
     if request.method == "POST":
         username = request.form["username"]
         password = request.form["password"]
@@ -190,6 +225,10 @@ def register():
 @views.route("/admin", methods=["GET", "POST"])
 @login_required
 def admin():
+    """
+    Ruta de administración para aprobar o rechazar usuarios.
+    Solo accesible para el usuario administrador definido en `ADMIN_USER`.
+    """
     if session.get("username") != ADMIN_USER:
         return "Access denied."
 
@@ -210,11 +249,17 @@ def logout():
 
 @views.route('/api/temperature_highlights', methods=['GET'])
 def get_temperature_highlights_api():
+    """
+    API que devuelve los valores más altos y más bajos de temperatura entre los sensores.
+    """
     highlights = get_temperature_highlights()
     return jsonify(highlights)
 
 @views.route('/api/histogram_data', methods=['GET'])
 def get_histogram_data():
+    """
+    API que devuelve los datos para un histograma de distribución de temperaturas.
+    """
     df = query_data()
     histogram_data = go.Histogram(x=df['original_value_float'])
     layout = go.Layout(title="Temperature Distribution", xaxis_title="Temperature (°C)", yaxis_title="Frequency")
@@ -222,6 +267,9 @@ def get_histogram_data():
 
 @views.route('/api/std_data', methods=['GET'])
 def get_std_data():
+    """
+    API que devuelve los datos de desviación estándar por sensor.
+    """
     df = query_data()
     grouped = df.groupby('name')['original_value_float'].std().reset_index()
     std_bar = go.Bar(x=grouped['name'], y=grouped['original_value_float'])
@@ -231,6 +279,9 @@ def get_std_data():
 @views.route('/historical', methods=['GET', 'POST'])
 @login_required
 def historical():
+    """
+    Ruta para mostrar datos históricos en un rango de tiempo especificado.
+    """
     fig = None
     if request.method == 'POST':
         start_date = request.form.get('start_date')

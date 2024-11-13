@@ -13,7 +13,16 @@ client = InfluxDBClient(
 )
 
 def query_data():
-    # Get the time range from the session, default to 1 minute
+    """
+    Consulta datos de la base de datos de InfluxDB dentro de un rango de tiempo específico.
+    El rango de tiempo se obtiene de la sesión (predeterminado a 1 minuto).
+    
+    Returns:
+        DataFrame: Contiene columnas específicas ('time', 'name', 'original_value_float').
+                  Devuelve un DataFrame vacío si no hay resultados.
+    """
+
+
     time_range = session.get('time_range', '1m')
     query = f"SELECT * FROM TEMP_SENSORS.TEMP_SENSORS WHERE variabletype='FwElmbAi' AND time > now() - {time_range}"
     result = client.query(query)
@@ -36,13 +45,27 @@ client2 = InfluxDBClient(
 )
 
 def get_sensor_info():
+    """
+    Consulta información general de los sensores desde la base de datos `sensors_data`.
+    
+    Returns:
+        list: Lista de puntos de datos resultantes de la consulta.
+    """
     query2 = "SELECT * FROM sensor_info"
     result = client2.query(query2)
     return list(result.get_points())
 
 def query_historical_data(start_datetime, end_datetime):
     """
-    Query historical data based on the given start and end datetime.
+    Consulta datos históricos de InfluxDB en un rango de tiempo específico.
+    
+    Args:
+        start_datetime (str): Fecha y hora de inicio en formato ISO 8601.
+        end_datetime (str): Fecha y hora de fin en formato ISO 8601.
+    
+    Returns:
+        DataFrame: Contiene columnas específicas ('time', 'name', 'original_value_float').
+                  Devuelve un DataFrame vacío si no hay resultados.
     """
     query = f"""
         SELECT * FROM TEMP_SENSORS.TEMP_SENSORS 
