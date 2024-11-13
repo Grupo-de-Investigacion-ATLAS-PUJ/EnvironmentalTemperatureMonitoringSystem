@@ -1,0 +1,64 @@
+{
+    "users": [
+        {
+            "username": "etm",
+            "password": "$2b$12$h13aW1kQ2LhS4Y1xYya8l.wMqjPRUU8ovDhZYXHVbJFwRwMmIjjBu",
+            "approved": true
+        },
+        {
+            "username": "Jaider",
+            "password": "$2b$12$eqjTM4etGTw8P8VnK/dliOn9OQIOEKF0P7txOXzdZRoEgZQlQDHLy",
+            "approved": true
+        },
+        {
+            "username": "Sebas1973",
+            "password": "$2b$12$h0rmTG.i80rp3u93PEI6EOATDq7wu.eTTWQeqnpBtJUS.UhkxBOqG",
+            "approved": true
+        },
+        {
+            "username": "CamiloMelo12",
+            "password": "$2b$12$h0rmTG.i80rp3u93PEI6EOATDq7wu.eTTWQeqnpBtJUS.UhkxBOqG",
+            "approved": true
+        },
+        {
+            "username": "CamiRodriguez45",
+            "password": "$2b$12$h0rmTG.i80rp3u93PEI6EOATDq7wu.eTTWQeqnpBtJUS.UhkxBOqG",
+            "approved": false
+        },
+        {
+            "username": "CesarBustacara12",
+            "password": "$2b$12$h0rmTG.i80rp3u93PEI6EOATDq7wu.eTTWQeqnpBtJUS.UhkxBOqG",
+            "approved": true
+        },
+        {
+            "username": "MaginFlores",
+            "password": "$2b$12$h0rmTG.i80rp3u93PEI6EOATDq7wu.eTTWQeqnpBtJUS.UhkxBOqG",
+            "approved": true
+        },
+        {
+            "username": "camilo3",
+            "password": "$2b$12$VLMSnNDqdIIAL3/bkCSoZefqMhjOPnvKHGSlyFzcXztgPmNhAy3ry",
+            "approved": true
+        },
+        {
+            "username": "etm",
+            "password": "$2b$12$H67GyQWUhvcpNAfUn6a2Y.OGEsEmDB5u5GeD94FypetWPittQ6bbG",
+            "approved": false
+        },
+        {
+            "username": "camilo4",
+            "password": "$2b$12$JwTjlMcaLhNtJ55n4Ve12uCGXt0tM/ON3VVnl2/fdz.4I2MoX/urO",
+            "approved": false
+        },
+        {
+            "username": "camilo5",
+            "password": "$2b$12$g8tzEOKHPXj12y3xcOfMgO.gz4h8wy3MI6WR7/2qidicz2oR9jbtW",
+            "approved": true
+        },
+        {
+            "username": "12345",
+            "password": "$2b$12$Omzq.f0hWEXWFQt2HtzCvejIMZ3rMqwX75wz/d1QU..gOO6BGaYTG",
+            "approved": true
+        }
+    ]
+}

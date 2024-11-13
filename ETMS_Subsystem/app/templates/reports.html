@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Reports{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/reports.css') }}">
+{% endblock %}
+{% block content %}
+<div class="reports-container">
+    <h1>Generate Report</h1>
+    <p>Click the button below to download the sensor data report.</p>
+    <a href="/generate_report" class="btn">Download Report</a>
+</div>
+{% endblock %}

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='images/favicon.ico') }}" type="image/x-icon">
+    {% block extra_css %}{% endblock %}
+    <title>{{ page_id | capitalize }} - Temperature Monitor</title>
+</head>
+<body>
+    <div class="sidebar">
+        <img src="{{ url_for('static', filename='images/ATLAS-Logowhite-big.png') }}" alt="ATLAS Experiment" class="logo">
+        <nav>
+            <ul>
+                {% if session.get("username") %}
+                    <li><a href="{{ url_for('views.dashboard') }}" class="menu-item">Dashboard</a></li>
+                    <li><a href="{{ url_for('views.historical') }}" class="menu-item">Historical</a></li>
+                    <li><a href="{{ url_for('views.variables') }}" class="menu-item">Metadata View</a></li>
+                    <li><a href="{{ url_for('views.alerts') }}" class="menu-item">Alerts</a></li>
+                    <li><a href="{{ url_for('views.reports') }}" class="menu-item">Reports</a></li>
+                    <li><a href="{{ url_for('views.settings') }}" class="menu-item">Settings</a></li>
+                    {% if session.get("username") == "etm" %}
+                        <li><a href="{{ url_for('views.admin') }}" class="menu-item">Admin</a></li>
+                    {% endif %}
+                    <li><a href="{{ url_for('views.logout') }}" class="menu-item">Logout</a></li>
+                {% else %}
+                    <li><a href="{{ url_for('views.login') }}" class="menu-item">Login</a></li>
+                    <li><a href="{{ url_for('views.register') }}" class="menu-item">Register</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
+
+    <div class="topbar">
+        <span class="page-title" id="page-title">{{ page_id | capitalize }}</span> <!-- Dynamic title -->
+    </div>
+
+    <div class="content">
+        <div id="dynamic-content">
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+
+    <!-- Flash Messages -->
+    <div class="flash-messages">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <ul>
+                    {% for category, message in messages %}
+                        <li class="{{ category }}">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+    </div>
+
+    <script>
+        setTimeout(() => {
+            const flashMessages = document.querySelector('.flash-messages');
+            if (flashMessages) {
+                flashMessages.remove();
+            }
+        }, 5000); // Remove flash messages after 5 seconds
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const currentPath = window.location.pathname;
+            const menuItems = document.querySelectorAll(".menu-item");
+
+            menuItems.forEach(item => {
+                if (item.getAttribute("href") === currentPath) {
+                    item.classList.add("active");
+                }
+            });
+        });
+    </script>
+
+    <script src="{{ url_for('static', filename='js/base.js') }}"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

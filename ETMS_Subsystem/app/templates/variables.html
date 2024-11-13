@@ -1,0 +1,51 @@
+<!-- app/templates/variables.html -->
+{% extends "base.html" %}
+{% block title %}Variables{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/variables.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div>
+        <img src="{{ url_for('static', filename='images/pixelcut-export.jpeg') }}" usemap="#image-map" alt="Mapped Points" width="781.2" height="784">
+        <map name="image-map">
+            {% for sensor in sensors %}
+                <area 
+                    onmouseover="showDetails('{{ sensor.sensor_id }}', '{{ sensor.connector }}', '{{ sensor.pins }}')" 
+                    onmouseout="clearDetails()" 
+                    coords="{{ sensor.coords }}" 
+                    shape="circle">
+            {% endfor %}
+        </map>
+    </div>
+    <div class="details" id="details">
+        <p>Hover over a point to see details</p>
+    </div>
+</div>
+
+<style>
+    .container {
+        display: flex;
+    }
+    .details {
+        margin-left: 20px;
+        font-size: 1.2em;
+    }
+</style>
+
+<script>
+    function showDetails(id, connector, pin) {
+        document.getElementById("details").innerHTML = `
+            <p><strong>Sensor ID:</strong> ${id}</p>
+            <p><strong>Connector:</strong> ${connector}</p>
+            <p><strong>PIN:</strong> ${pin}</p>
+        `;
+    }
+
+    function clearDetails() {
+        document.getElementById("details").innerHTML = "<p>Hover over a point to see details</p>";
+    }
+</script>
+{% endblock %}

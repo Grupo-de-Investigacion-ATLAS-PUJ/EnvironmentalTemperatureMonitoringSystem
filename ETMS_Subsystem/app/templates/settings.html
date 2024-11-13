@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% block title %}Settings{% endblock %}
+
+{% block content %}
+<h1>Settings</h1>
+
+<!-- Time Range Selection -->
+<form method="POST" class="settings-form">
+    <h2>Database Query Time Range</h2>
+    <input type="hidden" name="form_type" value="time_range">
+    <label for="time-range">Select Time Range:</label>
+    <select id="time-range" name="time_range" required>
+        <option value="1m" {% if time_range == '1m' %}selected{% endif %}>Last 1 Minute</option>
+        <option value="5m" {% if time_range == '5m' %}selected{% endif %}>Last 5 Minutes</option>
+        <option value="10m" {% if time_range == '10m' %}selected{% endif %}>Last 10 Minutes</option>
+        <option value="30m" {% if time_range == '30m' %}selected{% endif %}>Last 30 Minutes</option>
+        <option value="1h" {% if time_range == '1h' %}selected{% endif %}>Last 1 Hour</option>
+    </select>
+    <button type="submit">Save Time Range</button>
+</form>
+
+<!-- Alert Thresholds -->
+<form method="POST" class="settings-form">
+    <h2>Alert Thresholds</h2>
+    <input type="hidden" name="form_type" value="thresholds">
+    <label for="max-threshold">Maximum Temperature Threshold (°C):</label>
+    <input type="number" id="max-threshold" name="max_threshold" value="{{ thresholds.max_threshold }}" required>
+    
+    <label for="min-threshold">Minimum Temperature Threshold (°C):</label>
+    <input type="number" id="min-threshold" name="min_threshold" value="{{ thresholds.min_threshold }}" required>
+    
+    <button type="submit">Save Thresholds</button>
+</form>
+
+<style>
+    .settings-form {
+        max-width: 500px;
+        margin: 20px auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+    }
+
+    .settings-form h2 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .settings-form label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+
+    .settings-form input,
+    .settings-form select {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    .settings-form button {
+        width: 100%;
+        padding: 10px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+    .settings-form button:hover {
+        background-color: #0056b3;
+    }
+</style>
+{% endblock %}

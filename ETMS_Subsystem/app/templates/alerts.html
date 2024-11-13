@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Alerts{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/alerts.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="alerts-container">
+    <!-- Alerts Section -->
+    <div class="alerts-box">
+        <h2>Current Alerts</h2>
+        <ul id="alerts-list">
+            <!-- Alerts will be dynamically loaded here -->
+        </ul>
+    </div>
+
+    <!-- Gauges Section -->
+    <div class="gauges-box">
+        <div class="gauge">
+            <h3>Sensors</h3>
+            <div id="sensor-gauge" class="gauge-dial">
+                <div class="needle"></div>
+            </div>
+        </div>
+        <div class="gauge">
+            <h3>Memory</h3>
+            <div id="memory-gauge" class="gauge-dial">
+                <div class="needle"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/alerts.js') }}"></script>
+{% endblock %}

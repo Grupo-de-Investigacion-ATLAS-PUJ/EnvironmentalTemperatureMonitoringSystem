@@ -1,0 +1,205 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+    <!-- Temperature Highlights -->
+    <div id="temperature-highlights">
+        <div class="highlight max-temp">
+            <h3>Highest Temperature</h3>
+            <p id="highest-temp">Loading...</p>
+        </div>
+        <div class="highlight min-temp">
+            <h3>Lowest Temperature</h3>
+            <p id="lowest-temp">Loading...</p>
+        </div>
+    </div>
+    <!-- Performance Graph -->
+    <div id="performance-graph"></div>
+    <br>
+
+    <!-- Trend Graph -->
+    <div id="trend-graph"></div>
+    <br>
+
+    <!-- Histogram -->
+    <div id="histogram-graph"></div>
+    <br>
+
+    <!-- Standard Deviation -->
+    <div id="std-graph"></div>
+
+    <!-- Load Plotly.js to render the graphs -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    
+    <script type="text/javascript">
+        // Fetch and display temperature highlights
+        function fetchTemperatureHighlights() {
+            fetch('/api/temperature_highlights')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('highest-temp').textContent = 
+                        data.highest !== null ? `${data.highest}°C` : 'No data';
+                    document.getElementById('lowest-temp').textContent = 
+                        data.lowest !== null ? `${data.lowest}°C` : 'No data';
+                })
+                .catch(error => console.error('Error fetching temperature highlights:', error));
+        }
+
+        function updatePerformanceGraph() {
+            const graphDiv = document.getElementById('performance-graph');
+
+            // Verificar si ya existe una gráfica inicializada
+            if (graphDiv && graphDiv.data) {
+                // Capturar el estado de selección actual
+                const selectedSensors = graphDiv.data
+                    .filter(trace => trace.visible === true || trace.visible === undefined)
+                    .map(trace => trace.name); // Obtener los nombres de sensores visibles
+
+                fetch('/api/performance_data')
+                    .then(response => response.json())
+                    .then(data => {
+                        const parsedData = JSON.parse(data);
+
+                        // Aplicar los datos nuevos con Plotly.react
+                        Plotly.react('performance-graph', parsedData.data, parsedData.layout);
+
+                        // Restaurar la selección anterior
+                        graphDiv.data.forEach(trace => {
+                            if (selectedSensors.includes(trace.name)) {
+                                trace.visible = true;
+                            } else {
+                                trace.visible = 'legendonly';
+                            }
+                        });
+
+                        // Redibujar la gráfica con la visibilidad restaurada
+                        Plotly.redraw('performance-graph');
+                    })
+                    .catch(error => console.error('Error updating performance graph:', error));
+            } else {
+                // Si no hay gráfica inicial, simplemente actualiza los datos
+                fetch('/api/performance_data')
+                    .then(response => response.json())
+                    .then(data => {
+                        const parsedData = JSON.parse(data);
+                        Plotly.newPlot('performance-graph', parsedData.data, parsedData.layout);
+                    })
+                    .catch(error => console.error('Error updating performance graph:', error));
+            }
+        }
+
+
+        function updateTrendGraph() {
+            fetch('/api/trend_data')
+                .then(response => response.json())
+                .then(data => {
+                    const parsedData = JSON.parse(data);
+                    Plotly.react('trend-graph', parsedData.data, parsedData.layout);
+                })
+                .catch(error => console.error('Error updating trend graph:', error));
+        }
+
+        function updateHistogramGraph() {
+            fetch('/api/histogram_data')
+                .then(response => response.json())
+                .then(data => {
+                    const parsedData = JSON.parse(data);
+                    Plotly.react('histogram-graph', parsedData.data, parsedData.layout);
+                })
+                .catch(error => console.error('Error updating histogram graph:', error));
+        }
+
+        function updateStdGraph() {
+            fetch('/api/std_data')
+                .then(response => response.json())
+                .then(data => {
+                    const parsedData = JSON.parse(data);
+                    Plotly.react('std-graph', parsedData.data, parsedData.layout);
+                })
+                .catch(error => console.error('Error updating standard deviation graph:', error));
+        }
+
+        // Define an array of functions to update graphs and data
+        const updateFunctions = [
+            fetchTemperatureHighlights,
+            updatePerformanceGraph,
+            updateTrendGraph,
+            updateHistogramGraph,
+            updateStdGraph,
+        ];
+
+        // Use a loop to set intervals for each function
+        updateFunctions.forEach(fn => setInterval(() => fn(), 5000));
+
+
+        // Initial load
+        fetchTemperatureHighlights();
+        updatePerformanceGraph();
+        updateTrendGraph();
+        updateHistogramGraph();
+        updateStdGraph();
+    </script>
+
+    <style>
+        #temperature-highlights {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .highlight {
+            text-align: center;
+            padding: 10px;
+            border-radius: 8px;
+            width: 45%;
+        }
+
+        .max-temp {
+            background-color: #ffcccc;
+        }
+
+        .min-temp {
+            background-color: #cce5ff;
+        }
+
+        .highlight h3 {
+            margin: 0;
+            font-size: 1.5em;
+        }
+
+        .highlight p {
+            margin: 5px 0 0;
+            font-size: 2em;
+            font-weight: bold;
+        }
+
+        #sensor-group-selection {
+        margin-bottom: 20px;
+        text-align: center;
+        }
+
+        #sensor-group-selection form {
+            display: inline-block;
+        }
+
+        #sensor-group {
+            padding: 5px;
+            font-size: 1em;
+        }
+
+        #sensor-group-selection button {
+            padding: 5px 10px;
+            font-size: 1em;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        #sensor-group-selection button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+{% endblock %}

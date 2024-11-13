@@ -1,0 +1,120 @@
+.alerts-container {
+    display: flex;
+    gap: 20px;
+}
+
+.alerts-box {
+    flex: 1;
+    background-color: #f0f0f0;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.alerts-box h2 {
+    margin-bottom: 10px;
+}
+
+.alerts-box ul {
+    list-style: none;
+    padding: 0;
+}
+
+.alert-item {
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+}
+
+.alert-high {
+    background-color: #e74c3c; /* Bright red */
+    color: white;
+    font-weight: bold;
+    padding: 10px;
+    border-radius: 5px;
+}
+.no-alerts {
+    text-align: center;
+    color: #888;
+    font-style: italic;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+}
+
+
+.alert-low {
+    background-color: #f39c12; /* Bright orange */
+    color: white;
+    font-weight: bold;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+
+.gauges-box {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.gauge {
+    background-color: #f0f0f0;
+    padding: 20px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.gauge h3 {
+    margin-bottom: 10px;
+}
+
+.gauge-dial {
+    width: 100px;
+    height: 100px;
+    background: #ddd;
+    border-radius: 50%;
+    position: relative;
+}
+
+.gauge-dial .needle {
+    width: 2px;
+    height: 50%;
+    background: #333;
+    position: absolute;
+    top: 25%;
+    left: 50%;
+    transform-origin: bottom center;
+    transform: rotate(0deg); /* Will be set dynamically */
+}
+
+.gauge-dial {
+    position: relative;
+    width: 120px;
+    height: 60px;
+    background: conic-gradient(
+        red 0% 25%, 
+        orange 25% 50%, 
+        yellow 50% 75%, 
+        green 75% 100%
+    );
+    border-radius: 100px 100px 0 0;
+    overflow: hidden;
+}
+
+.needle {
+    position: absolute;
+    width: 2px;
+    height: 60px;
+    background-color: black;
+    top: 0;
+    left: 50%;
+    transform-origin: bottom;
+    transform: rotate(0deg);
+    transition: transform 0.5s ease-in-out;
+}
+

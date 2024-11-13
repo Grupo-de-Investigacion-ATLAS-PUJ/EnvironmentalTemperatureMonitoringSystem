@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+<h2 style="text-align: center; margin-top: 20px;">Admin Approval</h2>
+<div style="display: flex; justify-content: center; margin-top: 20px;">
+    <ul style="list-style: none; padding: 0; max-width: 600px; width: 100%; text-align: left;">
+        {% for user in pending_users %}
+            <li style="display: flex; justify-content: space-between; align-items: center; padding: 10px; margin: 5px 0; background-color: #f9f9f9; border: 1px solid #ddd; border-radius: 5px;">
+                <span style="font-size: 16px; font-weight: 600;">{{ user.username }}</span>
+                <form method="POST" style="display: flex; gap: 10px; margin: 0;">
+                    <input type="hidden" name="username" value="{{ user.username }}">
+                    <button type="submit" name="approve" style="background-color: #4CAF50; color: white; border: none; padding: 8px 12px; border-radius: 5px; cursor: pointer;">Approve</button>
+                    <button type="submit" name="deny" style="background-color: #F44336; color: white; border: none; padding: 8px 12px; border-radius: 5px; cursor: pointer;">Deny</button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

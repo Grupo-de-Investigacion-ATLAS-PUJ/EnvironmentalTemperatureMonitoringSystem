@@ -1,0 +1,198 @@
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 200px;
+    height: 100%;
+    background-color: #002147;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    padding-top: 20px;
+    box-sizing: border-box;
+    z-index: 1; /* Ensures it stays on top */
+    overflow-y: auto; /* Allows scrolling if sidebar content exceeds screen height */
+}
+
+/* Logo */
+.logo {
+    margin-bottom: 30px; /* Mantener el margen inferior */
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+/* Navegación */
+nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0; /* Elimina el margen predeterminado */
+    width: 100%; /* Asegura que ocupe todo el ancho disponible */
+}
+
+nav ul li {
+    width: 100%; /* Asegura que cada elemento de la lista ocupe todo el ancho */
+}
+
+/* Menú lateral - Botones */
+.menu-item {
+    display: block;
+    width: 100%;
+    padding: 15px 0;
+    padding-left: 20px;
+    text-align: left;
+    font-size: 18px;
+    color: white;
+    text-decoration: none;
+    background-color: #003366; /* Azul del botón */
+    margin-bottom: 10px;
+    transition: background-color 0.3s;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.menu-item.active { /* Color cuando está seleccionado */
+    background-color: #001a33;
+}
+
+/* Agregar la flecha */
+.menu-item::after {
+    content: '►'; /* Flecha */
+    color: white; /* Color de la flecha */
+    position: absolute;
+    right: 10px; /* Espaciado a la derecha */
+    top: 50%; /* Alineado verticalmente */
+    transform: translateY(-50%); /* Centra la flecha verticalmente */
+    font-size: 12px; /* Ajustar el tamaño de la flecha si es necesario */
+}
+
+/* Hover */
+.menu-item:hover {
+    background-color: #001a33; /* Azul más oscuro */
+}
+
+/* Menú de usuario */
+.user-menu {
+    position: absolute;
+    bottom: 20px;
+    left: 10px;
+    display: inline-block;
+    z-index: 100; /* Asegura que el dropdown se muestre encima de otros elementos */
+}
+
+/* Ajuste del botón */
+#user-button {
+    background-color: #003366;
+    border: none;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    position: relative;
+}
+
+.user-icon {
+    width: 45px;
+    height: 45px;
+}
+
+/* Dropdown del usuario */
+#user-dropdown {
+    display: none;
+    position: absolute;
+    left: 0;
+    bottom: 60px; /* Espaciado hacia arriba para que no se superponga con el botón */
+    background-color: white;
+    min-width: 160px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 200; /* Asegura que el dropdown se muestre sobre otros elementos */
+    pointer-events: auto; /* Permite interactuar con los elementos dentro del dropdown */
+}
+
+#user-dropdown a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+#user-dropdown a:hover {
+    background-color: #f1f1f1;
+}
+
+/* Mantén el dropdown visible cuando el cursor esté sobre el menú */
+.user-menu:hover #user-dropdown {
+    display: block;
+}
+
+.topbar {
+    position: fixed;
+    top: 0;
+    left: 200px; /* Offset to the right of the sidebar */
+    width: calc(100% - 200px); /* Full width minus sidebar width */
+    height: 60px;
+    background-color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+    z-index: 1; /* Ensures it stays above content */
+}
+
+.page-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #003366;
+}
+
+/* Content area */
+.content {
+    margin-top: 60px; /* Offset to account for the top bar */
+    margin-left: 200px; /* Offset to account for the sidebar */
+    padding: 20px;
+    box-sizing: border-box;
+    overflow-y: auto;
+}
+
+flash-messages {
+    position: fixed;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    width: 80%;
+    max-width: 600px;
+}
+
+.flash-messages ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.flash-messages li {
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 5px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.flash-messages li.success {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.flash-messages li.error {
+    background-color: #f44336;
+    color: white;
+}
